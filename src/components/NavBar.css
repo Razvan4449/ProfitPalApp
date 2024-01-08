@@ -1,0 +1,111 @@
+.navbar {
+    background-color: #004d99; 
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-logo img {
+    height: 50px; 
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-links {
+    display: flex;
+    margin-left: 20px; 
+  }
+  
+  .navbar-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px; 
+  }
+  
+  .navbar-links a:last-child {
+    margin-right: 0; 
+  }
+  
+  .navbar-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    position: relative; 
+  }
+  
+  .user-info .user-email {
+    margin-right: 15px;
+  }
+  
+ 
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px; 
+    height: 25px; 
+    cursor: pointer;
+    margin-left: 15px; 
+  }
+  
+  .hamburger-icon span {
+    display: block;
+    height: 3px; 
+    background-color: white;
+  }
+  
+  
+  /* ... (Keep your existing styles that are not mentioned here) ... */
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Position below the user info */
+    right: 0;
+    background-color: #ffffff; /* Light background for the dropdown */
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    width: 200px; /* Set a fixed width for the dropdown */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow for dropdown */
+    z-index: 1000; /* Ensure the dropdown is above other content */
+    overflow: hidden; /* Ensures the border-radius clips the content */
+  }
+  
+  .dropdown-menu li {
+    list-style: none;
+    padding: 10px 20px;
+    color: #333333; /* Darker text for better readability */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Smooth background transition */
+  }
+  
+  .dropdown-menu li:hover {
+    background-color: #f8f8f8; /* Light grey background on hover */
+  }
+    
+  .premium-button {
+    background: linear-gradient(45deg, #f6d365 0%, #fda085 100%);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    margin-left: 15px; 
+  }
+  
+  .premium-button:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
