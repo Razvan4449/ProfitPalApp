@@ -6,7 +6,7 @@ function HomePage() {
     <div className="homepage-container">
       <div className="hero-image-container">
         <img
-          src="https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_650,h_300/https://www.sarwa.co/blog/wp-content/uploads/2021/10/Quote-3-1.png"
+          src="https://www.sarwa.co/blog/wp-content/uploads/2021/10/Quote-3-1.png"
           alt="Inspirational Quote"
         />
       </div>

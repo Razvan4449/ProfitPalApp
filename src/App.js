@@ -1,13 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import CreateReportPage from './pages/CreateReportPage';
-import LoginPage from './pages/LoginPage';
-import AccountSettingsPage from './pages/AccountSettingsPage';
-import ManageSubscriptionPage from './pages/ManageSubscriptionPage'; 
-import MyReportsPage from './pages/MyReportsPage';
-import GetPremiumPage from './pages/GetPremiumPage'; 
+import HomePage from './pages/HomePage/HomePage';
+import CreateReportPage from './pages//CreateReport/CreateReportPage';
+import LoginPage from './pages/Login/LoginPage';
+import AccountSettingsPage from './pages/AccountSettings/AccountSettingsPage';
+import ManageSubscriptionPage from './pages/ManageSubscription/ManageSubscriptionPage';
+import MyReportsPage from './pages/MyReports/MyReportsPage';
+import GetPremiumPage from './pages/GetPremium/GetPremiumPage';
+import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
 
 
 function App() {
@@ -15,13 +16,40 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/create-report" element={<CreateReportPage />} />
-        <Route path="/reports" element={<MyReportsPage />} /> 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/get-premium" element={<GetPremiumPage />} />
-        <Route path="/account-settings" element={<AccountSettingsPage />} />
-        <Route path="/manage-subscription" element={<ManageSubscriptionPage />} /> 
+        <Route path="/" element={
+          <PrivateRoute>
+            <HomePage />
+          </PrivateRoute>} />
+
+        <Route path="/create-report" element={
+          <PrivateRoute>
+            <CreateReportPage />
+          </PrivateRoute>
+        } />
+
+        <Route path="/reports" element={
+          <PrivateRoute>
+            <MyReportsPage />
+          </PrivateRoute>} />
+
+        <Route path="/login" element={
+          <LoginPage />}
+        />
+
+        <Route path="/get-premium" element={
+          <PrivateRoute>
+            <GetPremiumPage />
+          </PrivateRoute>} />
+
+        <Route path="/account-settings" element={
+          <PrivateRoute>
+            <AccountSettingsPage />
+          </PrivateRoute>} />
+
+        <Route path="/manage-subscription" element={
+          <PrivateRoute>
+            <ManageSubscriptionPage />
+          </PrivateRoute>} />
       </Routes>
     </Router>
   );
