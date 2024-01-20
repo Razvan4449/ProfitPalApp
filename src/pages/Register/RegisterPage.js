@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import './LoginPage.css'; 
+import './RegisterPage.css';
 
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords don't match");
+      return;
+    }
     console.log('Email:', email, 'Password:', password);
   };
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h2>Login</h2>
+    <div className="register-container">
+      <div className="register-form">
+        <h2>Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input
@@ -32,11 +37,19 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit" className="login-button">Login</button>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="register-button">Register</button>
         </form>
       </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

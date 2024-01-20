@@ -9,6 +9,7 @@ import ManageSubscriptionPage from './pages/ManageSubscription/ManageSubscriptio
 import MyReportsPage from './pages/MyReports/MyReportsPage';
 import GetPremiumPage from './pages/GetPremium/GetPremiumPage';
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
+import RegisterPage from './pages/Register/RegisterPage';
 
 
 function App() {
@@ -34,6 +35,10 @@ function App() {
 
         <Route path="/login" element={
           <LoginPage />}
+        />
+
+        <Route path="/register" element={
+          <RegisterPage />}
         />
 
         <Route path="/get-premium" element={
