@@ -1,0 +1,67 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    font-size: 32px;
+    color: #0066cc;
+    margin-bottom: 20px;
+}
+
+.report-details {
+    margin-bottom: 20px;
+}
+
+.rule {
+    margin-bottom: 10px;
+}
+
+.passed {
+    color: #008000;
+}
+
+.notPassed {
+    color: #ff0000;
+}
+
+.paid-report-message {
+    color: #666;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.notPassedResearch {
+    color: #666;
+    font-style: italic;
+}
+
+.buy-report-message {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.buy-report-button {
+    background-color: #ff6600;
+    color: #fff;
+    font-size: 16px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buy-report-button:hover {
+    background-color: #cc5500;
+}

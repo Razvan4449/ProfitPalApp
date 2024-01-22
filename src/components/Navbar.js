@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import logo from './logo1.png'; 
+import logo from './logo1.png';
 import { useNavigate } from 'react-router-dom';
+import { useLocalState } from '../pages/utils/useLocalStorage';
+import ajax from '../pages/Services/FetchService';
 
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [jwt, setJwt] = useLocalState("", "jwt")
+  const [user, setUser] = useLocalState("", "user")
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -27,7 +31,23 @@ function Navbar() {
     };
   }, [dropdownRef]);
 
+  useEffect(() => {
+    if (jwt)
+      ajax("/api/users/details", "GET", jwt)
+        .then((response) => {
+          setUser(JSON.parse(response.message))
+        }).catch(e => {
+          console.log(e);
+        });
+  }, [jwt])
+
   let navigate = useNavigate();
+
+  function logout() {
+    setUser("")
+    setJwt("")
+    window.location.href = "/"
+  }
 
   return (
     <nav className="navbar">
@@ -42,10 +62,19 @@ function Navbar() {
         </div>
       </div>
       <div className="user-info" ref={dropdownRef}>
-        <span className="user-email">testmail@gmail.com</span>
-        <button className="premium-button" onClick={() => navigate('/get-premium')}>
-        Get Premium
-      </button>
+        <span className="user-email">
+          {
+            user ?
+              <>{user.email}
+                {user.subscriptionType == 0 ?
+                  <button className="premium-button" onClick={() => navigate('/get-premium')}>
+                    Get Premium
+                  </button>
+                  : <></>}</> :
+              <></>
+          }
+        </span>
+
         <div className="hamburger-icon" onClick={toggleDropdown}>
           <span></span>
           <span></span>
@@ -55,8 +84,9 @@ function Navbar() {
           <ul className="dropdown-menu">
             <li><Link to="/account-settings">Account Settings</Link></li>
             <li><Link to="/manage-subscription">Manage Subscription</Link></li>
-            {/* Update this to perform actual logout */}
-            <li><Link to="/logout">Logout</Link></li>
+            <li><div onClick={() => {
+              logout()
+            }}>Logout</div></li>
           </ul>
         )}
       </div>

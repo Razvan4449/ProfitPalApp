@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './RegisterPage.css';
+import ajax from '../Services/FetchService';
+import { Link } from 'react-router-dom';
 
 
 function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,6 +17,19 @@ function RegisterPage() {
       return;
     }
     console.log('Email:', email, 'Password:', password);
+    let body = {
+      "email": email,
+      "password": password
+    }
+    ajax("/api/auth/signup", "POST", "", body)
+      .then((response) => {
+        if (!response.error) {
+          window.location.href = "/login"
+        }
+        setErrorMessage(response.error)
+      }).catch(e => {
+        console.log(e);
+      });
   };
 
   return (
@@ -45,6 +61,12 @@ function RegisterPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
+          <div className="error-message">
+            {errorMessage}
+          </div>
+          <Link to="/login">
+            Already registered? Log in
+          </Link>
           <button type="submit" className="register-button">Register</button>
         </form>
       </div>

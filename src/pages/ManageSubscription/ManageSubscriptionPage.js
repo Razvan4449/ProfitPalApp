@@ -1,12 +1,25 @@
 import React from 'react';
 import './ManageSubscriptionPage.css'; // Make sure to create the corresponding CSS file
+import { useLocalState } from '../utils/useLocalStorage';
+import ajax from '../Services/FetchService';
 
 function ManageSubscriptionPage() {
-  // Example data - replace this with your actual subscription data
+  const [user, setUser] = useLocalState("", "user")
+  const [jwt, setJwt] = useLocalState("", "jwt")
+
+
   const subscriptions = [
-    { id: '#1097', status: 'Active', nextPayment: 'November 27, 2021', total: '$15.00 / month' },
-    { id: '#1835', status: 'Active', nextPayment: 'October 27, 2022', total: '$10.00 / year' }
+    { status: user.subscriptionType ? "Active" : "Inactive", nextPayment: user.subscriptionDeadline, total: '$15.00 / month' }
   ];
+
+  function cancelSubscription() {
+    ajax("/api/users/cancelSubscription", "PUT", jwt)
+      .then((response) => {
+        window.location.reload()
+      }).catch(e => {
+        console.log(e);
+      });
+  }
 
   return (
     <div className="manage-subscription-container">
@@ -14,7 +27,6 @@ function ManageSubscriptionPage() {
       <table className="subscriptions-table">
         <thead>
           <tr>
-            <th>Subscription</th>
             <th>Status</th>
             <th>Next payment</th>
             <th>Total</th>
@@ -23,12 +35,15 @@ function ManageSubscriptionPage() {
         </thead>
         <tbody>
           {subscriptions.map((subscription) => (
-            <tr key={subscription.id}>
-              <td>{subscription.id}</td>
+            <tr className={subscription.id}>
               <td>{subscription.status}</td>
               <td>{subscription.nextPayment}</td>
               <td>{subscription.total}</td>
-              <td><button className="view-details-button">View</button></td>
+              <td>{subscription.status == 'Active' ?
+                <button className="view-details-button" onClick={() => cancelSubscription()}>Cancel Subscription</button>
+                :
+                <>
+                </>}</td>
             </tr>
           ))}
         </tbody>

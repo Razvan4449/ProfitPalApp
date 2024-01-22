@@ -1,7 +1,25 @@
 import React from 'react';
 import './GetPremiumPage.css'; // Make sure you have the correct path
+import ajax from '../Services/FetchService';
+import { useLocalState } from '../utils/useLocalStorage';
 
 function GetPremiumPage() {
+  const [jwt, setJwt] = useLocalState("", "jwt")
+
+  function getPremium() {
+    const currentDate = new Date();
+    const oneMonthLater = new Date(currentDate);
+    oneMonthLater.setMonth(currentDate.getMonth() + 1);
+    const oneMonthLaterDateString = oneMonthLater.toISOString();
+
+    ajax("/api/users/buySubscription?newDeadline=" + oneMonthLaterDateString, "PUT", jwt)
+      .then((response) => {
+        window.location.href = "/"
+      }).catch(e => {
+        console.log(e);
+      });
+  }
+
   return (
     <div className="get-premium-container">
       <h1>Premium Plans</h1>
@@ -25,7 +43,7 @@ function GetPremiumPage() {
             <li>Detailed, algorithm-driven reports</li>
             <li>Priority customer support</li>
           </ul>
-          <button className="plan-button">Get Premium</button>
+          <button className="plan-button" onClick={() => getPremium()}>Get Premium</button>
         </div>
       </div>
     </div>

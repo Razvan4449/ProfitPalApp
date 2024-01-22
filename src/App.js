@@ -10,52 +10,70 @@ import MyReportsPage from './pages/MyReports/MyReportsPage';
 import GetPremiumPage from './pages/GetPremium/GetPremiumPage';
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
 import RegisterPage from './pages/Register/RegisterPage';
+import { useLocalState } from './pages/utils/useLocalStorage';
+import ReportPage from './pages/Report/ReportPage';
+import NotFound from './pages/NotFound/NotFound';
 
 
 function App() {
+  const [jwt, setJwt] = useLocalState("", "jwt")
   return (
     <Router>
       <Navbar />
+
       <Routes>
+        <Route path="/login" element={jwt ?
+          <HomePage /> : <LoginPage />}
+        />
+        <Route path="/register" element={jwt ?
+          <HomePage /> : <RegisterPage />}
+        />
+        <Route path='*' exact={true} element={<NotFound />} />
+
         <Route path="/" element={
           <PrivateRoute>
             <HomePage />
-          </PrivateRoute>} />
+          </PrivateRoute>}
+        />
 
         <Route path="/create-report" element={
           <PrivateRoute>
             <CreateReportPage />
-          </PrivateRoute>
-        } />
+          </PrivateRoute>}
+        />
+
+        <Route path="/report/:reportId" element={
+          <PrivateRoute>
+            <ReportPage />
+          </PrivateRoute>}
+        />
 
         <Route path="/reports" element={
           <PrivateRoute>
             <MyReportsPage />
-          </PrivateRoute>} />
-
-        <Route path="/login" element={
-          <LoginPage />}
-        />
-
-        <Route path="/register" element={
-          <RegisterPage />}
+          </PrivateRoute>}
         />
 
         <Route path="/get-premium" element={
           <PrivateRoute>
             <GetPremiumPage />
-          </PrivateRoute>} />
+          </PrivateRoute>}
+        />
 
         <Route path="/account-settings" element={
           <PrivateRoute>
             <AccountSettingsPage />
-          </PrivateRoute>} />
+          </PrivateRoute>}
+        />
 
         <Route path="/manage-subscription" element={
           <PrivateRoute>
             <ManageSubscriptionPage />
-          </PrivateRoute>} />
+          </PrivateRoute>}
+        />
+
       </Routes>
+
     </Router>
   );
 }

@@ -1,5 +1,7 @@
 function ajax(url, requestMethod, jwt, requestBody) {
 
+    url = 'http://localhost:5000' + url;
+
     const fetchData = {
         headers: {
             "Content-Type": "application/json",
@@ -9,7 +11,7 @@ function ajax(url, requestMethod, jwt, requestBody) {
     };
 
     if (jwt) {
-        fetchData.headers.Authorization = jwt;
+        fetchData.headers['Authorization'] = "Bearer " + jwt;
     }
 
     if (requestBody) {

@@ -1,46 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './MyReportsPage.css'; // Make sure to create the corresponding CSS file
 import { Link } from 'react-router-dom';
+import ajax from '../Services/FetchService';
+import { useLocalState } from '../utils/useLocalStorage';
 
 
 function MyReportsPage() {
-  // Example data - replace this with your actual reports data
-  const reports = [
-    { title: 'Cost Management...', type: 'Budget edit...', runAt: 'Sep 12, 2023', createdBy: 'Hansen Lu', sourceTemplate: 'Cost Manage...', schedule: true, recipients: 8 },
-    // ... other reports
-  ];
+  const [reports, setReports] = useState([])
+  const [jwt, setJwt] = useLocalState("", "jwt")
+
+  useEffect(() => {
+    ajax("/api/report/getAll", "GET", jwt)
+      .then((response) => {
+        setReports(JSON.parse(response.message))
+      }).catch(e => {
+        console.log(e);
+      });
+  }, [])
 
   return (
     <div className="my-reports-container">
       <h1>My Reports</h1>
       <div className="reports-navigation">
-      <Link to="/create-report" className="create-report-button">Create report</Link>
+        <Link to="/create-report" className="create-report-button">Create report</Link>
       </div>
       <div className="reports-table-container">
         <table className="reports-table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Type</th>
-              <th>Run at</th>
-              <th>Created by</th>
-              <th>Source template</th>
-              <th>Schedule</th>
-              <th>Recipients</th>
-              <th>Settings</th>
+              <th>Date</th>
+              <th>Company Symbol</th>
+              <th>Report type</th>
+              <th>Report link</th>
             </tr>
           </thead>
           <tbody>
             {reports.map((report, index) => (
-              <tr key={index}>
-                <td>{report.title}</td>
-                <td>{report.type}</td>
-                <td>{report.runAt}</td>
-                <td>{report.createdBy}</td>
-                <td>{report.sourceTemplate}</td>
-                <td>{report.schedule ? 'Yes' : 'No'}</td>
-                <td>{report.recipients}</td>
-                <td>{/* settings icon here */}</td>
+              <tr className={index}>
+                <td>{report.date.substring(0, 10)}</td>
+                <td>{report.companySymbol}</td>
+                <td>{report.paidReport ? <>Paid</> : <>Unpaid</>}</td>
+                <td><Link to={"/report/" + report.reportId} className="report-button">View report</Link></td>
               </tr>
             ))}
           </tbody>

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 
 function useLocalState(defaultValue, key) {
     const [value, setValue] = useState(() => {
-        const jwt = localStorage.getItem(key)
+        const localValue = localStorage.getItem(key)
 
-        return jwt !== null ? JSON.parse(jwt) : defaultValue
+        return localValue !== null ? JSON.parse(localValue) : defaultValue
     })
 
     useEffect(() => {

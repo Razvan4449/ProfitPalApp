@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomePage.css'; // Ensure the CSS file is correctly linked
+import { useLocalState } from '../utils/useLocalStorage';
+import ajax from '../Services/FetchService';
+import { rule1, rule2, rule3 } from '../utils/ruleValidators';
 
 function HomePage() {
+  const [jwt, setJwt] = useLocalState('', 'jwt');
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    ajax('/api/report/getPopular', 'GET', jwt)
+      .then((response) => {
+        setReports(JSON.parse(response.message));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <div className="homepage-container">
       <div className="hero-image-container">
@@ -26,19 +42,32 @@ function HomePage() {
         </div>
         <div className="stocks-box">
           <h2>Popular Stocks</h2>
-          <ul>
-            <li>Stock 1: $Price</li>
-            <li>Stock 2: $Price</li>
-            <li>Stock 3: $Price</li>
-            <li>Stock 4: $Price</li>
-            <li>Stock 5: $Price</li>
-            <li>Stock 6: $Price</li>
-            <li>Stock 7: $Price</li>
-            <li>Stock 8: $Price</li>
-            <li>Stock 9: $Price</li>
-            <li>Stock 10: $Price</li>
-            <li>Stock 11: $Price</li>
-          </ul>
+          <table className="stocks-table">
+            <thead>
+              <tr>
+                <th>Company Symbol</th>
+                <th>Rule No.1</th>
+                <th>Rule No.2</th>
+                <th>Rule No.3</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reports.map((report, index) => (
+                <tr key={index}>
+                  <td>{report.companySymbol}</td>
+                  <td className={rule1(report.rule1) ? 'passed' : 'notPassed'}>
+                    {rule1(report.rule1) ? 'Passed' : 'Not passed'}
+                  </td>
+                  <td className={rule2(report.rule2) ? 'passed' : 'notPassed'}>
+                    {rule2(report.rule2) ? 'Passed' : 'Not passed'}
+                  </td>
+                  <td className={rule3(report.rule3) ? 'passed' : 'notPassed'}>
+                    {rule3(report.rule3) ? 'Passed' : 'Not passed'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
